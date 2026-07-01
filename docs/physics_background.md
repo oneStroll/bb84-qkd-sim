@@ -135,7 +135,7 @@ Bob 的 sifted key：$\mathbf{k}_B = \{\tilde{b}_i\}_{i\in S}$
 Alice 和 Bob 从各自的 sifted key 中随机选取相同位置的子集 $T \subset S$ 进行公开比对。量子误码率定义为：
 
 $$
-\text{QBER} = \frac{\#\{i \in T \mid k_{A,i} \neq k_{B,i}\}}{\lvert T\rvert}
+\text{QBER} = \frac{|\{i \in T \mid k_{A,i} \neq k_{B,i}\}|}{|T|}
 $$
 
 ### 第 6 步：密钥提取
