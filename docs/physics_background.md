@@ -188,24 +188,127 @@ $$
 
 ## 7. 代码实现与物理图像的对应关系
 
+### 7.1 Alice 编码：经典比特 → 量子态
+
 ```python
-# ── Alice 随机选择编码基 ──
-alice_bases = np.random.choice(["Z", "X"], size=n)
-
-# ── Eve 截获-重发 ──
-eve_bases = np.random.choice(["Z", "X"], size=n)
-# Eve 在正确基上测得正确结果
-eve_bits[eve_bases == alice_bases] = alice_bits[eve_bases == alice_bases]
-# Eve 在错误基上测得随机结果
-eve_bits[eve_bases != alice_bases] = np.random.randint(0, 2, ...)
-
-# ── Bob 测量 ──
-bob_bases = np.random.choice(["Z", "X"], size=n)
-# 基一致 → 确定结果
-bob_bits[match] = received_bits[match]
-# 基不一致 → 随机结果
-bob_bits[~match] = np.random.randint(0, 2, ...)
+# 核心代码
+bits = alice.generate_bits(n)     # 随机比特串 b_i ∈ {0, 1}
+bases = alice.generate_bases(n)    # 随机编码基 θ_i ∈ {Z, X}
 ```
 
-代码中的 `np.random.choice` 统计模拟了量子测量的概率性质——当测量基与量子态基一致时获得确定结果，不一致时获得随机结果，这正是 Born 规则的体现。
+**物理图像**：Alice 将每个经典比特 $b_i$ 编码到量子态 $|\psi_i\rangle$ 上：
+
+$$
+|\psi_i\rangle = \begin{cases}
+|b_i\rangle & \text{if } \theta_i = Z \quad\text{(计算基)} \\[4pt]
+H|b_i\rangle & \text{if } \theta_i = X \quad\text{(Hadamard 基)}
+\end{cases}
+$$
+
+其中 $H = \frac{1}{\sqrt{2}}\begin{pmatrix}1&1\\1&-1\end{pmatrix}$ 是 Hadamard 门。当 $\theta_i = X$ 时，$H$ 将计算基矢映射到对角基矢：
+
+$$
+H|0\rangle = |+\rangle = \frac{|0\rangle + |1\rangle}{\sqrt{2}},\quad
+H|1\rangle = |-\rangle = \frac{|0\rangle - |1\rangle}{\sqrt{2}}
+$$
+
+**物理含义**：随机选择编码基是 BB84 协议安全性的核心。如果 Alice 只用一组基编码，Eve 可以用相同基直接测量而不引入扰动。
+
+---
+
+### 7.2 Eve 截获-重发：量子测量坍缩
+
+```python
+# 核心代码
+eve_bases = np.random.choice(["Z", "X"], size=n)      # Eve 随机选测量基 γ_i
+
+# 基一致时：测量结果确定
+eve_bits[eve_bases == alice_bases] = alice_bits[...]
+
+# 基不一致时：测量结果随机（Born 规则）
+eve_bits[eve_bases != alice_bases] = np.random.randint(0, 2, ...)
+```
+
+**物理图像**：Eve 截获量子态 $|\psi_i\rangle$ 并用基 $\gamma_i$ 测量。根据量子测量公设（Measurement Postulate），测量由投影算子描述：
+
+- $\gamma_i = Z$ 时：投影算子 $\{P_0, P_1\} = \{|0\rangle\langle 0|, |1\rangle\langle 1|\}$
+- $\gamma_i = X$ 时：投影算子 $\{P_0, P_1\} = \{|+\rangle\langle +|, |-\rangle\langle -|\}$
+
+测量结果 $e_i$ 的概率由 **Born 规则** 给出：
+
+$$
+p(e_i = 0) = \langle\psi_i|P_0|\psi_i\rangle,\quad
+p(e_i = 1) = \langle\psi_i|P_1|\psi_i\rangle
+$$
+
+- 当 $\gamma_i = \theta_i$（Eve 选对基）：$p(e_i = b_i) = 1$，结果确定
+- 当 $\gamma_i \neq \theta_i$（Eve 选错基）：$p(e_i=0) = p(e_i=1) = 1/2$，结果完全随机
+
+**代码对应**：`np.random.randint(0, 2)` 模拟了"测量基不匹配时结果各 50% 概率"这一量子效应，本质是 Born 规则中投影模平方 $|\langle\phi_j|\psi_i\rangle|^2$ 的离散采样。
+
+测量后量子态坍缩到 $P_{e_i}$ 对应的本征态 $|\phi_i\rangle$，Eve 将此坍缩态转发给 Bob。Eve 无法复制未知量子态——这是**不可克隆定理**（No-cloning Theorem）的直接推论。
+
+---
+
+### 7.3 Bob 测量：基比对与结果筛选
+
+```python
+# 核心代码
+bob_bases = self.bob.generate_bases(n)     # Bob 随机选测量基 β_i
+bob_bits = self.bob.measure(...)            # 测量
+
+# Alice & Bob 公开基（不公开比特），只保留基一致的位置
+match = alice_bases == bob_bases
+alice_sifted = alice_bits[match]
+bob_sifted = bob_bits[match]
+```
+
+**物理图像**：
+- 若 $\beta_i = \theta_i$（基一致）：测量结果确定，$\tilde{b}_i = b_i$
+- 若 $\beta_i \neq \theta_i$（基不一致）：$\tilde{b}_i$ 以 50% 概率为 0 或 1
+
+**基比对**（Basis Sifting）是 BB84 的关键后处理步骤。Bob 通过经典信道公开自己的测量基序列 $\mathbf{\beta}$（**不公开测量结果**）。双方丢弃 $\theta_i \neq \beta_i$ 的位置，保留 $\theta_i = \beta_i$ 的位作为 sifted key：
+
+$$
+\mathbf{k}_A = \{b_i\}_{\{i: \theta_i = \beta_i\}},\quad
+\mathbf{k}_B = \{\tilde{b}_i\}_{\{i: \theta_i = \beta_i\}}
+$$
+
+由于 $\theta_i, \beta_i$ 独立随机，$P(\theta_i = \beta_i) = 1/2$，sifted key 长度约为 $n/2$。
+
+---
+
+### 7.4 QBER 计算：Eve 存在的检测
+
+```python
+# 从 sifted key 中随机抽样比对
+n_sample = int(len(alice_sifted) * sample_fraction)
+indices = np.random.choice(len(alice_sifted), n_sample, replace=False)
+n_errors = np.sum(alice_sifted[indices] != bob_sifted[indices])
+qber = n_errors / n_sample
+```
+
+**物理图像**：考虑 Alice 和 Bob 基一致（即 $i \in S$）的位置，Eve 截获-重发攻击引入的 QBER 为：
+
+$$
+\begin{aligned}
+\text{QBER} &= \mathbb{P}(\tilde{b}_i \neq b_i \mid \theta_i = \beta_i) \\
+&= \mathbb{P}(\gamma_i \neq \theta_i) \times \mathbb{P}(\tilde{b}_i \neq b_i \mid \gamma_i \neq \theta_i, \theta_i = \beta_i) \\
+&= \frac{1}{2} \times \frac{1}{2} = \frac{1}{4} = 25\%
+\end{aligned}
+$$
+
+**安全性阈值**：若检测到 QBER $> 11\%$，双方可确信存在窃听者并丢弃密钥。11% 来自信息论分析——当误码率超过此值时，Eve 可能获取足够信息量。
+
+---
+
+### 7.5 核心物理原理总结
+
+| 代码行 | 物理原理 | 狄拉克符号表达 |
+|--------|---------|---------------|
+| `alice.generate_bases(n)` | 共轭基编码 | $\theta_i \in \{Z, X\}$ |
+| `eve_bases != alice_bases` | 测量坍缩 + Born 规则 | $p(e_i) = |\langle e_i| \psi_i\rangle|^2$ |
+| `np.random.randint(0, 2)` | 非共轭基测量随机性 | $|\langle 0|+\rangle|^2 = |\langle 1|+\rangle|^2 = 1/2$ |
+| `alice_bases == bob_bases` | 基比对（Sifting） | $S = \{i \mid \theta_i = \beta_i\}$ |
+| `n_errors / n_sample` | QBER = 25% 检测 Eve | $\text{QBER} = 1/2 \times 1/2 = 1/4$ |
 
