@@ -1,6 +1,6 @@
 # BB84 QKD 全链路基础仿真
 
-![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
+![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
 ![CI](https://github.com/oneStroll/bb84-qkd-sim/actions/workflows/test.yml/badge.svg)
 

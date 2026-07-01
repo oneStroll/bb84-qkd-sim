@@ -7,7 +7,7 @@ name = "bb84-qkd-sim"
 version = "1.0.0"
 description = "BB84 量子密钥分发（QKD）协议的全链路基础仿真"
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.10"
 dependencies = [
     "numpy>=1.20",
     "matplotlib>=3.4",
