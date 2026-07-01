@@ -2,7 +2,7 @@
 
 ## 1. 量子比特与狄拉克符号
 
-量子比特（qubit）是量子信息的基本单元，表示为二维 Hilbert 空间 $\mathcal{H} \cong \mathbb{C}^2$ 中的归一化向量。在 Dirac 符号中，计算基（Z 基）的两个正交基矢为：
+量子比特（qubit）是量子信息的基本单元，表示为二维 Hilbert 空间 ℋ ≅ ℂ² 中的归一化向量。在 Dirac 符号中，计算基（Z 基）的两个正交基矢为：
 
 $$
 |0\rangle = \begin{pmatrix} 1 \\ 0 \end{pmatrix}, \quad
@@ -51,8 +51,8 @@ $$
 
 | 编码比特 | Z 基 | X 基 |
 |:--------:|:----:|:----:|
-| 0 | $\vert 0\rangle$ | $\vert +\rangle = \frac{1}{\sqrt{2}}(\vert 0\rangle + \vert 1\rangle)$ |
-| 1 | $\vert 1\rangle$ | $\vert -\rangle = \frac{1}{\sqrt{2}}(\vert 0\rangle - \vert 1\rangle)$ |
+| 0 | ∣0⟩ | ∣+⟩ = (∣0⟩ + ∣1⟩)/√2 |
+| 1 | ∣1⟩ | ∣-⟩ = (∣0⟩ - ∣1⟩)/√2 |
 
 ## 4. 协议流程的形式化描述
 
