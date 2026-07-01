@@ -102,13 +102,14 @@ def plot_qber_comparison(
     except ImportError:
         return  # matplotlib 不可用时静默跳过
 
-    labels = ["无 Eve", "有 Eve (截获-重发)"]
+    # Use English labels to avoid CJK font dependency
+    labels = ["No Eve", "With Eve\n(Intercept-resend)"]
     values = [qber_no_eve * 100, qber_with_eve * 100]
 
     fig, ax = plt.subplots(figsize=(6, 4))
     bars = ax.bar(labels, values, color=["#4CAF50", "#F44336"], width=0.5)
     ax.set_ylabel("QBER (%)")
-    ax.set_title("BB84 QKD: QBER 对比")
+    ax.set_title("BB84 QKD: QBER Comparison")
     ax.set_ylim(0, max(values) * 1.4 + 5)
 
     for bar, val in zip(bars, values):
@@ -120,9 +121,9 @@ def plot_qber_comparison(
             fontsize=12,
         )
 
-    # 理论值参考线
-    ax.axhline(y=0, color="gray", linestyle="--", linewidth=0.8, label="理论值 0%")
-    ax.axhline(y=25, color="orange", linestyle="--", linewidth=0.8, label="理论值 25%")
+    # Theoretical reference lines
+    ax.axhline(y=0, color="gray", linestyle="--", linewidth=0.8, label="Theory: 0%")
+    ax.axhline(y=25, color="orange", linestyle="--", linewidth=0.8, label="Theory: 25%")
     ax.legend()
 
     plt.tight_layout()
@@ -144,12 +145,12 @@ def plot_qber_vs_qubits(
         return
 
     fig, ax = plt.subplots(figsize=(8, 5))
-    ax.plot(qubit_counts, qber_no_eve, "o-", label="无 Eve", color="#4CAF50")
-    ax.plot(qubit_counts, qber_with_eve, "s-", label="有 Eve (截获-重发)", color="#F44336")
-    ax.axhline(y=25, color="orange", linestyle="--", linewidth=0.8, label="理论值 25%")
-    ax.set_xlabel("初始量子比特数")
+    ax.plot(qubit_counts, qber_no_eve, "o-", label="No Eve", color="#4CAF50")
+    ax.plot(qubit_counts, qber_with_eve, "s-", label="With Eve (Intercept-resend)", color="#F44336")
+    ax.axhline(y=25, color="orange", linestyle="--", linewidth=0.8, label="Theory: 25%")
+    ax.set_xlabel("Number of Initial Qubits")
     ax.set_ylabel("QBER (%)")
-    ax.set_title("BB84 QKD: QBER 随量子比特数的变化")
+    ax.set_title("BB84 QKD: QBER vs Number of Qubits")
     ax.legend()
     ax.grid(True, alpha=0.3)
 

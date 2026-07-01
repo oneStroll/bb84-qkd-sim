@@ -38,9 +38,9 @@ def main():
     print()
 
     if result_eve["qber"] > 0.10:
-        print("  ✓ Eve 的存在被检测到！QBER 显著升高，通信不安全。")
+        print("  [OK] Eve 的存在被检测到！QBER 显著升高，通信不安全。")
     else:
-        print("  ✗ QBER 过低，可能未正确触发 Eve 攻击。")
+        print("  [FAIL] QBER 过低，可能未正确触发 Eve 攻击。")
 
     # ── 大规模仿真验证 ──
     print("\n" + "=" * 60)
