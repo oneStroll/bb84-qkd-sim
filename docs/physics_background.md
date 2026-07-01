@@ -12,7 +12,7 @@ $$
 任意单量子纯态可表示为：
 
 $$
-|\psi\rangle = \alpha|0\rangle + \beta|1\rangle, \quad |\alpha|^2 + |\beta|^2 = 1
+|\psi\rangle = \alpha|0\rangle + \beta||1\rangle, \quad ∣\alpha∣^2 + ∣\beta∣^2 = 1|
 $$
 
 ## 2. BB84 协议的四个量子态
@@ -36,31 +36,31 @@ $$
 
 $$
 H = \frac{1}{\sqrt{2}}\begin{pmatrix} 1 & 1 \\ 1 & -1 \end{pmatrix}, \quad
-|+\rangle = H|0\rangle, \quad |-\rangle = H|1\rangle
+|+\rangle = H|0\rangle, \quad ||-\rangle = H∣1\rangle|
 $$
 
-**关键性质**：两组基是共轭的（mutually unbiased），即一组基中的任一态在另一组基的任意态上的投影模平方恒为 $1/2$：
+**关键性质**：两组基是共轭的（mutually unbiased），即一组基中的任一态在另一组基的任意态上的投影模平方恒为 1/2：
 
 $$
-|\langle 0 | + \rangle|^2 = |\langle 0 | - \rangle|^2 = |\langle 1 | + \rangle|^2 = |\langle 1 | - \rangle|^2 = \frac{1}{2}
+|\langle 0 | + \rangle||^2 = ∣\langle 0 ∣ - \rangle∣^2 = ∣\langle 1 ∣ + \rangle∣^2 = ∣\langle 1 ∣ - \rangle∣^2 = \frac{1}{2}|
 $$
 
 这意味着一组基中的量子态在另一组基上测量时，结果是完全随机的。
 
 ## 3. 编码方案
 
-| 编码比特 | Z 基 | X 基 |
+| 编码比特 | Z 基 ||X 基 ∣|
 |:--------:|:----:|:----:|
-| 0 | ∣0⟩ | ∣+⟩ = (∣0⟩ + ∣1⟩)/√2 |
-| 1 | ∣1⟩ | ∣-⟩ = (∣0⟩ - ∣1⟩)/√2 |
+| 0 | ∣0⟩ ||∣+⟩ = (∣0⟩ + ∣1⟩)/√2 ∣|
+| 1 | ∣1⟩ ||∣-⟩ = (∣0⟩ - ∣1⟩)/√2 ∣|
 
 ## 4. 协议流程的形式化描述
 
 ### 第 1 步：Alice 制备量子态
 
-Alice 随机生成长度为 $n$ 的经典比特串 $\mathbf{b} = \{b_1, b_2, ..., b_n\}$ 和编码基序列 $\mathbf{\theta} = \{\theta_1, \theta_2, ..., \theta_n\}$，其中 $\theta_i \in \{Z, X\}$。
+Alice 随机生成长度为 n 的经典比特串 b = {b_1, b_2, ..., b_n} 和编码基序列 {θ} = {θ_1, θ_2, ..., θ_n}，其中 θ_i ∈ {Z, X}。
 
-根据编码方案，Alice 制备 $n$ 个量子态：
+根据编码方案，Alice 制备 n 个量子态：
 
 $$
 |\psi_i\rangle = \begin{cases}
@@ -71,40 +71,40 @@ $$
 
 ### 第 2 步：量子信道传输（理想情况）
 
-Alice 将 $n$ 个量子态通过量子信道发送给 Bob。
+Alice 将 n 个量子态通过量子信道发送给 Bob。
 
 ### 第 2b 步：Eve 截获-重发攻击（攻击场景）
 
-Eve 截获所有量子态，对每个 $\vert\psi_i\rangle$ 随机选择测量基 $\gamma_i \in \{Z, X\}$ 进行测量。
+Eve 截获所有量子态，对每个 |ψ_i⟩ 随机选择测量基 γ_i ∈ {Z, X} 进行测量。
 
-根据量子测量公设（Measurement Postulate），测量过程由一组投影算子 $\{P_m\}$ 描述：
+根据量子测量公设（Measurement Postulate），测量过程由一组投影算子 {P_m} 描述：
 
-- 若 $\gamma_i = Z$：投影算子为 $\{\vert 0\rangle\langle 0\vert, \vert 1\rangle\langle 1\vert\}$
-- 若 $\gamma_i = X$：投影算子为 $\{\vert +\rangle\langle +\vert, \vert -\rangle\langle -\vert\}$
+- 若 γ_i = Z：投影算子为 {|0⟩⟨0|, |1⟩⟨1|}
+- 若 γ_i = X：投影算子为 {|+⟩⟨+|, |-⟩⟨-|}
 
-测量结果 $e_i$ 的概率由 Born 规则给出：
+测量结果 e_i 的概率由 Born 规则给出：
 
 $$
 p(e_i) = \langle\psi_i|P_{e_i}|\psi_i\rangle
 $$
 
-测量后，量子态坍缩到 $P_{e_i}$ 对应的本征态 $\vert\phi_i\rangle$。Eve 将此坍缩后的量子态 $\vert\phi_i\rangle$ 转发给 Bob。
+测量后，量子态坍缩到 P_{e_i} 对应的本征态 φ_i。Eve 将此坍缩后的量子态 φ_i 转发给 Bob。
 
-**关键洞察**：当 $\gamma_i \neq \theta_i$（Eve 选错基）时：
-- Eve 以 50% 概率得到 $e_i = 0$，以 50% 概率得到 $e_i = 1$
+**关键洞察**：当 γ_i ≠ θ_i（Eve 选错基）时：
+- Eve 以 50% 概率得到 e_i = 0，以 50% 概率得到 e_i = 1
 - 无论得到哪个结果，转发的量子态都与 Alice 的原始态不同
 - 这将在 Alice 和 Bob 的最终密钥中引入误码
 
 ### 第 3 步：Bob 测量
 
-Bob 对每个接收到的量子态随机选择测量基 $\beta_i \in \{Z, X\}$ 进行测量，得到结果 $\tilde{b}_i$。
+Bob 对每个接收到的量子态随机选择测量基 β_i ∈ {Z, X} 进行测量，得到结果 b_i。
 
 测量过程的数学描述：
 
-- 若 $\beta_i = \theta_i$（基一致）：测量结果确定，$\tilde{b}_i = b_i$
-- 若 $\beta_i \neq \theta_i$（基不一致）：测量结果以 50% 概率为 0，50% 概率为 1
+- 若 β_i = θ_i（基一致）：测量结果确定，b_i = b_i
+- 若 β_i ≠ θ_i（基不一致）：测量结果以 50% 概率为 0，50% 概率为 1
 
-证明（以 Alice 发送 $\vert 0\rangle$、Bob 用 X 基测量为例）：
+证明（以 Alice 发送 |0⟩、Bob 用 X 基测量为例）：
 
 $$
 \vert\langle+ \vert 0\rangle\vert^2 = \left\vert\frac{1}{\sqrt{2}}(\langle 0\vert + \langle 1\vert)\vert 0\rangle\right\vert^2 = \left\vert\frac{1}{\sqrt{2}}\right\vert^2 = \frac{1}{2}
@@ -116,8 +116,8 @@ $$
 
 ### 第 4 步：基比对（Sifting）
 
-Bob 通过经典信道广播自己的测量基序列 $\mathbf{\beta}$（**不广播测量结果**）。
-Alice 和 Bob 各自保留 $\theta_i = \beta_i$ 的位置上的比特，丢弃其余比特。
+Bob 通过经典信道广播自己的测量基序列 {β}（**不广播测量结果**）。
+Alice 和 Bob 各自保留 θ_i = β_i 的位置上的比特，丢弃其余比特。
 
 保留的位置集合：
 
@@ -125,14 +125,14 @@ $$
 S = \{i \mid \theta_i = \beta_i\}
 $$
 
-Alice 的 sifted key：$\mathbf{k}_A = \{b_i\}_{i\in S}$
-Bob 的 sifted key：$\mathbf{k}_B = \{\tilde{b}_i\}_{i\in S}$
+Alice 的 sifted key：k_A = {b_i}_{i∈ S}
+Bob 的 sifted key：k_B = {b_i}_{i∈ S}
 
-由于 $\theta_i$ 和 $\beta_i$ 都是独立均匀随机选择的，$\mathbb{P}(\theta_i = \beta_i) = \frac{1}{2}$，因此 sifted key 的预期长度约为 $n/2$。
+由于 θ_i 和 β_i 都是独立均匀随机选择的，P(θ_i = β_i) = 1/2，因此 sifted key 的预期长度约为 n/2。
 
 ### 第 5 步：QBER 估算
 
-Alice 和 Bob 从各自的 sifted key 中随机选取相同位置的子集 $T \subset S$ 进行公开比对。量子误码率定义为：
+Alice 和 Bob 从各自的 sifted key 中随机选取相同位置的子集 T ⊂ S 进行公开比对。量子误码率定义为：
 
 $$
 \text{QBER} = \frac{|\{i \in T \mid k_{A,i} \neq k_{B,i}\}|}{|T|}
@@ -140,29 +140,29 @@ $$
 
 ### 第 6 步：密钥提取
 
-如果 QBER 低于安全阈值（通常 $\text{QBER} \lesssim 11\%$），Alice 和 Bob 认为信道安全，将剩余未公开的比特 $S \setminus T$ 作为原始密钥。
+如果 QBER 低于安全阈值（通常 QBER ≲ 11%），Alice 和 Bob 认为信道安全，将剩余未公开的比特 S \ T 作为原始密钥。
 
 ## 5. 无 Eve 时的 QBER 分析
 
 在理想信道（无噪声、无窃听）中：
 
-- 当 $\theta_i = \beta_i$ 时：$\tilde{b}_i = b_i$ 确定成立
-- $\{\theta_i = \beta_i\}$ 的概率为 $1/2$
+- 当 θ_i = β_i 时：b_i = b_i 确定成立
+- {θ_i = β_i} 的概率为 1/2
 
 因此在 sifted key 中，Alice 和 Bob 的比特完全相同，QBER = 0。
 
 ## 6. 有 Eve（截获-重发）时的 QBER 分析
 
-考虑 Eve 对每个量子态实施截获-重发攻击。Eve 随机选择测量基 $\gamma_i$。
+考虑 Eve 对每个量子态实施截获-重发攻击。Eve 随机选择测量基 γ_i。
 
 ### 6.1 条件概率分析
 
-对于任意位置 $i$，考虑 Alice 和 Bob 基一致的情况（$\theta_i = \beta_i$）：
+对于任意位置 i，考虑 Alice 和 Bob 基一致的情况（θ_i = β_i）：
 
-| Eve 的基 $\gamma_i$ | 概率 | 条件 | 结果 |
+| Eve 的基 γ_i | 概率 ||条件 ∣ 结果 ∣|
 |:---:|:---:|:---|:---|
-| $\gamma_i = \theta_i$ | $1/2$ | Eve 选对基，不引入错误 | $\tilde{b}_i = b_i$ |
-| $\gamma_i \neq \theta_i$ | $1/2$ | Eve 选错基，测量结果 $e_i$ 随机 | 以 $1/2$ 概率 $\tilde{b}_i = b_i$（偶然正确），或以 $1/2$ 概率 $\tilde{b}_i \neq b_i$（错误） |
+| γ_i = θ_i | 1/2 ||Eve 选对基，不引入错误 ∣ b_i = b_i ∣|
+| γ_i ≠ θ_i | 1/2 ||Eve 选错基，测量结果 e_i 随机 ∣ 以 1/2 概率 b_i = b_i（偶然正确），或以 1/2 概率 b_i ≠ b_i（错误） ∣|
 
 ### 6.2 QBER 计算
 
@@ -180,7 +180,7 @@ $$
 - Eve 不知道 Alice 使用的编码基，所以她有 50% 的概率选错基
 - 当 Eve 选错基时，她的测量结果与 Alice 的比特无关（完全随机）
 - Eve 基于错误的测量结果重发后，Bob 即使使用正确的基测量，也有 50% 的概率得到与 Alice 不同的比特
-- 因此总体误码率为 $1/2 \times 1/2 = 1/4$
+- 因此总体误码率为 1/2 × 1/2 = 1/4
 
 ### 6.4 安全阈值
 
@@ -196,7 +196,7 @@ bits = alice.generate_bits(n)     # 随机比特串 b_i ∈ {0, 1}
 bases = alice.generate_bases(n)    # 随机编码基 θ_i ∈ {Z, X}
 ```
 
-**物理图像**：Alice 将每个经典比特 $b_i$ 编码到量子态 $\vert\psi_i\rangle$ 上：
+**物理图像**：Alice 将每个经典比特 b_i 编码到量子态 ψ_i 上：
 
 $$
 |\psi_i\rangle = \begin{cases}
@@ -211,7 +211,7 @@ $$
 H = \frac{1}{\sqrt{2}}\begin{pmatrix}1&1\\ 1 & -1\end{pmatrix}
 $$
 
-是 Hadamard 门。当 $\theta_i = X$ 时，$H$ 将计算基矢映射到对角基矢：
+是 Hadamard 门。当 θ_i = X 时，H 将计算基矢映射到对角基矢：
 
 $$
 H|0\rangle = |+\rangle = \frac{|0\rangle + |1\rangle}{\sqrt{2}},\quad
@@ -235,24 +235,24 @@ eve_bits[eve_bases == alice_bases] = alice_bits[...]
 eve_bits[eve_bases != alice_bases] = np.random.randint(0, 2, ...)
 ```
 
-**物理图像**：Eve 截获量子态 $\vert\psi_i\rangle$ 并用基 $\gamma_i$ 测量。根据量子测量公设（Measurement Postulate），测量由投影算子描述：
+**物理图像**：Eve 截获量子态 ψ_i 并用基 γ_i 测量。根据量子测量公设（Measurement Postulate），测量由投影算子描述：
 
-- $\gamma_i = Z$ 时：投影算子 $\{P_0, P_1\} = \{\vert0\rangle\langle 0\vert, \vert1\rangle\langle 1\vert\}$
-- $\gamma_i = X$ 时：投影算子 $\{P_0, P_1\} = \{\vert+\rangle\langle +\vert, \vert-\rangle\langle -\vert\}$
+- γ_i = Z 时：投影算子 {P_0, P_1} = {0 0, 1 1}
+- γ_i = X 时：投影算子 {P_0, P_1} = {+ +, - -}
 
-测量结果 $e_i$ 的概率由 **Born 规则** 给出：
+测量结果 e_i 的概率由 **Born 规则** 给出：
 
 $$
 p(e_i = 0) = \langle\psi_i|P_0|\psi_i\rangle,\quad
 p(e_i = 1) = \langle\psi_i|P_1|\psi_i\rangle
 $$
 
-- 当 $\gamma_i = \theta_i$（Eve 选对基）：$p(e_i = b_i) = 1$，结果确定
-- 当 $\gamma_i \neq \theta_i$（Eve 选错基）：$p(e_i=0) = p(e_i=1) = 1/2$，结果完全随机
+- 当 γ_i = θ_i（Eve 选对基）：p(e_i = b_i) = 1，结果确定
+- 当 γ_i ≠ θ_i（Eve 选错基）：p(e_i=0) = p(e_i=1) = 1/2，结果完全随机
 
-**代码对应**：`np.random.randint(0, 2)` 模拟了"测量基不匹配时结果各 50% 概率"这一量子效应，本质是 Born 规则中投影模平方 $\vert\langle\phi_j\vert\psi_i\rangle\vert^2$ 的离散采样。
+**代码对应**：`np.random.randint(0, 2)` 模拟了"测量基不匹配时结果各 50% 概率"这一量子效应，本质是 Born 规则中投影模平方 φ_jψ_i^2 的离散采样。
 
-测量后量子态坍缩到 $P_{e_i}$ 对应的本征态 $\vert\phi_i\rangle$，Eve 将此坍缩态转发给 Bob。Eve 无法复制未知量子态——这是**不可克隆定理**（No-cloning Theorem）的直接推论。
+测量后量子态坍缩到 P_{e_i} 对应的本征态 φ_i，Eve 将此坍缩态转发给 Bob。Eve 无法复制未知量子态——这是**不可克隆定理**（No-cloning Theorem）的直接推论。
 
 ---
 
@@ -270,17 +270,17 @@ bob_sifted = bob_bits[match]
 ```
 
 **物理图像**：
-- 若 $\beta_i = \theta_i$（基一致）：测量结果确定，$\tilde{b}_i = b_i$
-- 若 $\beta_i \neq \theta_i$（基不一致）：$\tilde{b}_i$ 以 50% 概率为 0 或 1
+- 若 β_i = θ_i（基一致）：测量结果确定，b_i = b_i
+- 若 β_i ≠ θ_i（基不一致）：b_i 以 50% 概率为 0 或 1
 
-**基比对**（Basis Sifting）是 BB84 的关键后处理步骤。Bob 通过经典信道公开自己的测量基序列 $\mathbf{\beta}$（**不公开测量结果**）。双方丢弃 $\theta_i \neq \beta_i$ 的位置，保留 $\theta_i = \beta_i$ 的位作为 sifted key：
+**基比对**（Basis Sifting）是 BB84 的关键后处理步骤。Bob 通过经典信道公开自己的测量基序列 {β}（**不公开测量结果**）。双方丢弃 θ_i ≠ β_i 的位置，保留 θ_i = β_i 的位作为 sifted key：
 
 $$
 \mathbf{k}_A = \{b_i\}_{\{i: \theta_i = \beta_i\}},\quad
 \mathbf{k}_B = \{\tilde{b}_i\}_{\{i: \theta_i = \beta_i\}}
 $$
 
-由于 $\theta_i, \beta_i$ 独立随机，$P(\theta_i = \beta_i) = 1/2$，sifted key 长度约为 $n/2$。
+由于 θ_i, β_i 独立随机，P(θ_i = β_i) = 1/2，sifted key 长度约为 n/2。
 
 ---
 
@@ -294,7 +294,7 @@ n_errors = np.sum(alice_sifted[indices] != bob_sifted[indices])
 qber = n_errors / n_sample
 ```
 
-**物理图像**：考虑 Alice 和 Bob 基一致（即 $i \in S$）的位置，Eve 截获-重发攻击引入的 QBER 为：
+**物理图像**：考虑 Alice 和 Bob 基一致（即 i ∈ S）的位置，Eve 截获-重发攻击引入的 QBER 为：
 
 $$
 \begin{aligned}
@@ -304,7 +304,7 @@ $$
 \end{aligned}
 $$
 
-**安全性阈值**：若检测到 QBER $> 11\%$，双方可确信存在窃听者并丢弃密钥。11% 来自信息论分析——当误码率超过此值时，Eve 可能获取足够信息量。
+**安全性阈值**：若检测到 QBER > 11\%，双方可确信存在窃听者并丢弃密钥。11% 来自信息论分析——当误码率超过此值时，Eve 可能获取足够信息量。
 
 ---
 
@@ -312,9 +312,9 @@ $$
 
 | 代码行 | 物理原理 | 狄拉克符号表达 |
 |--------|---------|---------------|
-| `alice.generate_bases(n)` | 共轭基编码 | $\theta_i \in \{Z, X\}$ |
-| `eve_bases != alice_bases` | 测量坍缩 + Born 规则 | $p(e_i) = \vert\langle e_i\vert \psi_i\rangle\vert^2$ |
-| `np.random.randint(0, 2)` | 非共轭基测量随机性 | $\vert\langle 0\vert+\rangle\vert^2 = \vert\langle 1\vert+\rangle\vert^2 = 1/2$ |
-| `alice_bases == bob_bases` | 基比对（Sifting） | $S = \{i \mid \theta_i = \beta_i\}$ |
-| `n_errors / n_sample` | QBER = 25% 检测 Eve | $\text{QBER} = 1/2 \times 1/2 = 1/4$ |
+| `alice.generate_bases(n)` | 共轭基编码 | θ_i ∈ {Z, X} |
+| `eve_bases != alice_bases` | 测量坍缩 + Born 规则 | p(e_i) = ∣⟨e_i|ψ_i⟩∣² |
+| `np.random.randint(0, 2)` | 非共轭基测量随机性 | ∣⟨0|+⟩∣² = ∣⟨1|+⟩∣² = 1/2 |
+| `alice_bases == bob_bases` | 基比对（Sifting） | S = {i ∣ θ_i = β_i} |
+| `n_errors / n_sample` | QBER = 25% 检测 Eve | QBER = 1/2 × 1/2 = 1/4 |
 
