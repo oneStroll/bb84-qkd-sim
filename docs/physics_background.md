@@ -200,7 +200,7 @@ bases = alice.generate_bases(n)    # 随机编码基 θ_i ∈ {Z, X}
 
 $$
 |\psi_i\rangle = \begin{cases}
-|b_i\rangle & \text{if } \theta_i = Z \quad\text{(计算基)} \\[4pt]
+|b_i\rangle & \text{if } \theta_i = Z \quad\text{(计算基)} \\\\
 H|b_i\rangle & \text{if } \theta_i = X \quad\text{(Hadamard 基)}
 \end{cases}
 $$
@@ -208,7 +208,7 @@ $$
 其中
 
 $$
-H = \frac{1}{\sqrt{2}}\begin{pmatrix}1&1\\1&-1\end{pmatrix}
+H = \frac{1}{\sqrt{2}}\begin{pmatrix}1&1\\ 1 & -1\end{pmatrix}
 $$
 
 是 Hadamard 门。当 $\theta_i = X$ 时，$H$ 将计算基矢映射到对角基矢：
