@@ -205,7 +205,13 @@ H|b_i\rangle & \text{if } \theta_i = X \quad\text{(Hadamard 基)}
 \end{cases}
 $$
 
-其中 $H = \frac{1}{\sqrt{2}}\begin{pmatrix}1&1\\1&-1\end{pmatrix}$ 是 Hadamard 门。当 $\theta_i = X$ 时，$H$ 将计算基矢映射到对角基矢：
+其中
+
+$$
+H = \frac{1}{\sqrt{2}}\begin{pmatrix}1&1\\1&-1\end{pmatrix}
+$$
+
+是 Hadamard 门。当 $\theta_i = X$ 时，$H$ 将计算基矢映射到对角基矢：
 
 $$
 H|0\rangle = |+\rangle = \frac{|0\rangle + |1\rangle}{\sqrt{2}},\quad
