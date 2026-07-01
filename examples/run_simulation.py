@@ -14,10 +14,52 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from bb84_sim import BB84Protocol
 
 
+import numpy as np
+
+
+def show_sifting_process():
+    """详细展示基底比对（Basis Sifting）过程。"""
+    n = 20  # 小样本便于展示
+    rng = np.random.default_rng(42)
+
+    # Alice 生成比特和编码基
+    alice_bits = rng.integers(0, 2, size=n)
+    alice_bases = rng.choice(["Z", "X"], size=n)
+
+    # Bob 随机选择测量基
+    bob_bases = rng.choice(["Z", "X"], size=n)
+
+    # 基比对
+    match = alice_bases == bob_bases
+
+    # 筛选后的 sifted key
+    alice_sifted = alice_bits[match]
+
+    print("=" * 70)
+    print("【基底比对过程演示】（n = 20）")
+    print("=" * 70)
+    print()
+    print(f"{'位置':>4} {'Alice比特':>8} {'Alice基':>8} {'Bob基':>8} {'匹配?':>6} {'保留?':>6}")
+    print("-" * 45)
+    for i in range(n):
+        keep = "*" if match[i] else " "
+        print(f"{i:>4} {alice_bits[i]:>8} {alice_bases[i]:>8} {bob_bases[i]:>8} {str(match[i]):>6} {keep:>6}")
+
+    print()
+    print(f"基匹配数: {np.sum(match)} / {n}  (预期 ~50%)")
+    print(f"Alice 的 sifted key: {alice_sifted}")
+    print(f"Sifted key 长度: {len(alice_sifted)}")
+    print("=" * 70)
+    print()
+
+
 def main():
     print("=" * 60)
     print("BB84 量子密钥分发（QKD）协议 — 全链路仿真")
     print("=" * 60)
+
+    # ── 基底比对过程展示 ──
+    show_sifting_process()
 
     # ── 场景 1: 无 Eve 的理想信道 ──
     print("\n【场景 1】理想信道（无窃听者）\n")
